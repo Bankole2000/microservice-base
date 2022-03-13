@@ -1,0 +1,98 @@
+version: "3.6"
+# https://docs.docker.com/compose/compose-file/
+services:
+  auth-service: 
+    container_name: auth-service
+    build: 
+      context: ./auth-service
+      dockerfile: Dockerfile
+      target: dev
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./auth-service/src:/app/src
+    depends_on:
+      - rabbitmq
+      - redis
+  email-service: 
+    container_name: email-service
+    build: 
+      context: ./email-service
+      dockerfile: Dockerfile
+      target: dev
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./email-service/src:/app/src
+    depends_on:
+      - rabbitmq
+      - redis
+  user-service: 
+    container_name: user-service
+    build: 
+      context: ./user-service
+      dockerfile: Dockerfile
+      target: dev
+    restart: unless-stopped
+    ports:
+      - "3004:3004"
+    volumes:
+      - ./user-service/src:/app/src
+    depends_on:
+      - rabbitmq
+      - redis
+  profile-service: 
+    container_name: profile-service
+    build: 
+      context: ./profile-service
+      dockerfile: Dockerfile
+      target: dev
+    restart: unless-stopped
+    ports:
+      - "3003:3003"
+    volumes:
+      - ./profile-service/src:/app/src
+    depends_on:
+      - rabbitmq
+      - redis
+  image-service: 
+    container_name: image-service
+    build: 
+      context: ./image-service
+      dockerfile: Dockerfile
+      target: dev
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./image-service/src:/app/src
+    depends_on:
+      - rabbitmq
+      - redis
+  rabbitmq:
+    image: 'rabbitmq:3-management'
+    ports:
+      # The standard AMQP protocol port
+      - '5672:5672'
+      # HTTP management UI
+      - '8080:15672'
+    environment:
+      # The location of the RabbitMQ server.  "amqp" is the protocol;
+      # "rabbitmq" is the hostname.  Note that there is not a guarantee
+      # that the server will start first!  Telling the pika client library
+      # to try multiple times gets around this ordering issue.
+      AMQP_URL: 'amqp://rabbitmq?connection_attempts=5&retry_delay=5'
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+    networks:
+      - network
+  redis: 
+    image: redis
+    ports:
+      - 6379:6379
+networks:
+  # Declare our private network.  We must declare one for the magic
+  # Docker DNS to work, but otherwise its default settings are fine.
+  network: {}
