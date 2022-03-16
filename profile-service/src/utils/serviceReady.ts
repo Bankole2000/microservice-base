@@ -26,6 +26,7 @@ export const serviceDiscovery = async (redis: any, channel: any) => {
   if(upServices.length > 0) {
     await Promise.all(upServices.map(async (service:any) => {
       if(service.name !== config.get<string>('serviceName')) {
+        await channel.assertExchange(service.exchange, 'fanout');
         const q = await channel.assertQueue('', {exclusive: true});
         await channel.bindQueue(q.queue, service.exchange, '')
         channel.consume(q.queue, (message: any) => {

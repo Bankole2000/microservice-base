@@ -12,6 +12,7 @@ services:
       - "3000:3000"
     volumes:
       - ./auth-service/src:/app/src
+      - ./auth-service/config:/app/config
     depends_on:
       - rabbitmq
       - redis
@@ -26,6 +27,7 @@ services:
       - "3001:3001"
     volumes:
       - ./email-service/src:/app/src
+      - ./email-service/config:/app/config
     depends_on:
       - rabbitmq
       - redis
@@ -40,6 +42,7 @@ services:
       - "3004:3004"
     volumes:
       - ./user-service/src:/app/src
+      - ./user-service/config:/app/config
     depends_on:
       - rabbitmq
       - redis
@@ -54,6 +57,7 @@ services:
       - "3003:3003"
     volumes:
       - ./profile-service/src:/app/src
+      - ./profile-service/config:/app/config
     depends_on:
       - rabbitmq
       - redis
@@ -68,11 +72,13 @@ services:
       - "3002:3002"
     volumes:
       - ./image-service/src:/app/src
+      - ./image-service/config:/app/config
     depends_on:
       - rabbitmq
       - redis
   rabbitmq:
     image: 'rabbitmq:3-management'
+    container_name: rabbitmq
     ports:
       # The standard AMQP protocol port
       - '5672:5672'
@@ -86,13 +92,14 @@ services:
       AMQP_URL: 'amqp://rabbitmq?connection_attempts=5&retry_delay=5'
       RABBITMQ_DEFAULT_USER: "guest"
       RABBITMQ_DEFAULT_PASS: "guest"
-    networks:
-      - network
+    # networks:
+    #   - network
   redis: 
     image: redis
+    container_name: redis
     ports:
       - 6379:6379
-networks:
+# networks:
   # Declare our private network.  We must declare one for the magic
   # Docker DNS to work, but otherwise its default settings are fine.
-  network: {}
+  # network: {}

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: graphql-service-depl
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: graphql-service
+  template: 
+    metadata: 
+      labels: 
+        app: graphql-service
+    spec: 
+      containers: 
+        - name: graphql-service # container name
+          image: bankole2000/graphql-service # image name - eg bankole2000/auth-service
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: graphql-service-clusterip-srv
+spec:
+  selector:
+    app: graphql-service
+  ports:
+    - name: graphql-service
+      protocol: TCP
+      port: 4000
+      targetPort: 4000

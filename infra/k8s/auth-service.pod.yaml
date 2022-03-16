@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: auth-service
+spec: 
+  containers: 
+    - name: auth-service # container name
+      image: bankole2000/auth-service # image name - eg bankole2000/auth-service
+      imagePullPolicy: Never

@@ -1,7 +1,7 @@
 export default {
-  port: process.env.PORT || 3001,
-  serviceName: 'email-service',
-  queue: 'email-jobs',
+  port: process.env.PORT || 4000,
+  serviceName: 'auth-service',
+  queue: 'auth-jobs',
   redisConfig: {
     port: process.env.REDIS_PUBSUB_PORT || 6379,
     scope: process.env.REDIS_PUBSUB_SCOPE || 'waleproject',
@@ -9,6 +9,6 @@ export default {
   }, 
   rabbitMQConfig: {
     url: process.env.RABBITMQ_URL || 'amqp://rabbitmq:5672',
-    exchange: process.env.RABBITMQ_EX || 'email-logs',
+    exchange: process.env.RABBITMQ_EX || 'auth-logs',
   }
 }

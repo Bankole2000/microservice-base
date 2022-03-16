@@ -1,7 +1,15 @@
+import { Channel } from "amqplib";
+import { RedisCustomClient } from "../redisConnect";
+
 declare namespace Express {
   export interface Request {
-     channel?: any,
+     channel?: Channel,
      user?: any, 
-     redis?: any
+     redis?: RedisCustomClient
   }
+}
+
+export type AppService = {
+  name: string,
+  exchange: string
 }

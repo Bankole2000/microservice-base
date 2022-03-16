@@ -1,5 +1,6 @@
 import {createClient} from 'redis';
 import config from 'config';
+import { RedisClientType } from 'redis';
 const NRP = require('node-redis-pubsub');
 
 const redisURL = config.get<string>('redisConfig.url');
@@ -14,6 +15,15 @@ async function connect(): Promise<void> {
     console.log({error});
     process.exit(1);
   }
+}
+
+type PubSub = ReturnType<typeof pubSub>;
+type RedisConnection = ReturnType<typeof connect>;
+
+export type RedisCustomClient =  {
+  client: RedisClientType,
+  pubSub: PubSub,
+  connect: RedisConnection
 }
 
 export default { pubSub, client, connect };

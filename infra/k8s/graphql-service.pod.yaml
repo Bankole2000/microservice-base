@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: graphql-service
+spec: 
+  containers: 
+    - name: graphql-service # container name
+      image: bankole2000/graphql-service # image name - eg bankole2000/auth-service
+      imagePullPolicy: Never

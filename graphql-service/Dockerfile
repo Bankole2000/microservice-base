@@ -77,7 +77,7 @@ COPY ./config ./config
 # ENV DATABASE_URL=''
 # ENV PRISMA_PORT $PRISMA_PORT
 
-EXPOSE 3000
+EXPOSE 4000
 EXPOSE 5555
 
 CMD ["npm", "run", "dev"]
