@@ -17,14 +17,28 @@ spec:
           image: bankole2000/graphql-service # image name - eg bankole2000/auth-service
           imagePullPolicy: Never
 ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: graphql-service-clusterip-srv
+# spec:
+#   selector:
+#     app: graphql-service
+#   ports:
+#     - name: graphql-service
+#       protocol: TCP
+#       port: 4000
+#       targetPort: 4000
+---
 apiVersion: v1
 kind: Service
-metadata:
-  name: graphql-service-clusterip-srv
-spec:
-  selector:
+metadata: 
+  name: graphql-service-nodeport-srv
+spec: 
+  type: NodePort
+  selector: 
     app: graphql-service
-  ports:
+  ports: 
     - name: graphql-service
       protocol: TCP
       port: 4000

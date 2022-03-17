@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: notifications
+spec: 
+  containers: 
+    - name: notifications # container name
+      image: bankole2000/notification-service # image name - eg bankole2000/auth-service
+      imagePullPolicy: Never
